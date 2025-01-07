@@ -1,0 +1,133 @@
+    <%- include("Partials/Header.ejs") %>
+    <div class="introduction">
+        <h1>Welcome. <br>
+        Millions of movies, TV shows and people to discover. Explore now.</h1>
+    </div>
+    <main>
+
+        <!-- Popular Movies -->
+        <div class="title">
+            <h1>Popular Movies Now </h1>
+            <a href="/popularMovie"><h1><span class="arrow">></span></h1></a>   
+        </div>
+        <div class="Popular">
+            <% Movies.forEach(movie =>{ %>
+                <div class="movie">
+                    <a href="/movie/<%= movie.id %>">
+                        <div class="image-container">
+                            <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path%>" alt="<%= movie.title %>">
+                            <div class="overview">
+                                <h3>Overview</h3>
+                                <%= movie.overview %>
+                        </div>
+                        </div>
+                        <div class="movie-info">
+                            <h3 class="movie-title"><%= movie.title %></h3>
+                            <% if(movie.vote_average>=8){ %>
+                                <span class="green"><%= movie.vote_average.toFixed(1) %></span>
+                            <% }else if(movie.vote_average>=5 && movie.vote_average<8){ %>
+                                <span class="orange"><%= movie.vote_average.toFixed(1) %></span>
+                            <% }else{ %>
+                                <span class="red"><%= movie.vote_average.toFixed(1) %></span>
+                            <% } %>
+                        </div>
+                    </a>  
+                </div>
+            <% }) %>
+        </div>
+        
+        
+        <!-- Popular TV Shows -->
+        <div class="title">
+            <h1>Popular TV Series Now </h1>
+            <a href="/popularTv"><h1><span class="arrow">></span></h1></a>   
+        </div>
+        <div class="Popular">
+            <% TV.forEach(movie =>{ %>
+                <div class="movie">
+                    <a href="/series/<%= movie.id %>">
+                    <div class="image-container">
+                        <img src="<%= movie.poster_path ? 'https://image.tmdb.org/t/p/w500'+movie.poster_path: 'http://via.placeholder.com/1080x1580' %>" alt="<%= movie.name %>">
+                        <div class="overview">
+                            <h3>Overview</h3>
+                            <%= movie.overview %>
+                    </div>
+                    </div>
+                    <div class="movie-info">
+                        <h3 class="movie-title"><%= movie.name %></h3>
+                        <% if(movie.vote_average>=8){ %>
+                            <span class="green"><%= movie.vote_average.toFixed(1) %></span>
+                        <% }else if(movie.vote_average>=5 && movie.vote_average<8){ %>
+                            <span class="orange"><%= movie.vote_average.toFixed(1) %></span>
+                        <% }else{ %>
+                            <span class="red"><%= movie.vote_average.toFixed(1) %></span>
+                        <% } %>
+                    </div>
+                    </a>  
+                </div>
+            <% }) %>
+        </div>
+
+        <!-- Popular Movies -->
+        <div class="title">
+            <h1>Top Rated Movies</h1>
+            <a href="/topMovies"><h1><span class="arrow">></span></h1></a>   
+        </div>
+        <div class="Popular">
+            <% topMov.forEach(movie =>{ %>
+                <div class="movie">
+                    <a href="/movie/<%= movie.id %>">
+                    <div class="image-container">
+                        <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path%>" alt="<%= movie.title %>">
+                        <div class="overview">
+                            <h3>Overview</h3>
+                            <%= movie.overview %>
+                    </div>
+                    </div>
+                    <div class="movie-info">
+                        <h3 class="movie-title"><%= movie.title %></h3>
+                        <% if(movie.vote_average>=8){ %>
+                            <span class="green"><%= movie.vote_average.toFixed(1) %></span>
+                        <% }else if(movie.vote_average>=5 && movie.vote_average<8){ %>
+                            <span class="orange"><%= movie.vote_average.toFixed(1) %></span>
+                        <% }else{ %>
+                            <span class="red"><%= movie.vote_average.toFixed(1) %></span>
+                        <% } %>
+                    </div>
+                    </a>  
+                </div>
+            <% }) %>
+        </div>
+
+        <!-- Popular TV Shows -->
+        <div class="title">
+            <h1>Top Rated TV Series </h1>
+            <a href="/topTv"><h1><span class="arrow">></span></h1></a>   
+        </div>
+        <div class="Popular">
+            <% topTv.forEach(movie =>{ %>
+                <div class="movie">
+                    <a href="/series/<%= movie.id %>">
+                    <div class="image-container">
+                        <img src="<%= movie.poster_path ? 'https://image.tmdb.org/t/p/w500'+movie.poster_path: 'http://via.placeholder.com/1080x1580' %>" alt="<%= movie.name %>">
+                        <div class="overview">
+                            <h3>Overview</h3>
+                            <%= movie.overview %>
+                    </div>
+                    </div>
+                    <div class="movie-info">
+                        <h3 class="movie-title"><%= movie.name %></h3>
+                        <% if(movie.vote_average>=8){ %>
+                            <span class="green"><%= movie.vote_average.toFixed(1) %></span>
+                        <% }else if(movie.vote_average>=5 && movie.vote_average<8){ %>
+                            <span class="orange"><%= movie.vote_average.toFixed(1) %></span>
+                        <% }else{ %>
+                            <span class="red"><%= movie.vote_average.toFixed(1) %></span>
+                        <% } %>
+                    </div>
+                    </a>  
+                </div>
+            <% }) %>
+        </div>
+    </main>
+    <%- include("Partials/Footer.ejs") %>

@@ -1,0 +1,31 @@
+<%- include("Partials/Header.ejs") %>
+<div class="introduction">
+    <h3 style="font-size: 50px;">A list of all the Movies and TV Shows that I have watched and I recommend you to watch</h3>
+    <img src="MyList.png" alt="">
+</div>
+
+<div class="Popular">
+    <% movies.forEach(movie =>{ %>
+        <div class="movie">
+            <a href="/movie/<%= movie.id %>">
+                <div class="image-container">
+                    <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path%>" alt="<%= movie.title %>">
+                    <div class="overview">
+                        <h3>Overview</h3>
+                        <%= movie.overview %>
+                </div>
+                </div>
+                <div class="movie-info">
+                    <h3 class="movie-title"><%= movie.title %></h3>
+                    <% if(movie.vote_average>=8){ %>
+                        <span class="green"><%= movie.vote_average.toFixed(1) %></span>
+                    <% }else if(movie.vote_average>=5 && movie.vote_average<8){ %>
+                        <span class="orange"><%= movie.vote_average.toFixed(1) %></span>
+                    <% }else{ %>
+                        <span class="red"><%= movie.vote_average.toFixed(1) %></span>
+                    <% } %>
+                </div>  
+            </a>
+        </div>
+    <% }) %>
+</div>

@@ -1,0 +1,85 @@
+<%- include("Partials/Header.ejs") %>
+<div class="backdrop" style="background-image: url('https://image.tmdb.org/t/p/original<%= Movie.backdrop_path %>');">
+    <div class="details-container">
+        <div class="poster">
+            <img src="https://image.tmdb.org/t/p/w500<%= Movie.poster_path %>" alt="<%= Movie.title %>">
+            <form action="/watch-trailer-movies/<%= Movie.id %>" method="get">
+                <button type="submit" class="know-more">Watch Trailer</button>
+            </form>
+        </div>
+        <div class="movie-details">
+            <h2><%= Movie.title %></h2>
+            <p class="release_date"><%= new Date(Movie.release_date).toLocaleDateString('en-US') %>(US) &nbsp; &#x2022; <%= Movie.genres.map(genre => genre.name).join(', ') %> &#x2022; &nbsp;<% 
+                const runtime = Movie.runtime; 
+                const hours = Math.floor(runtime / 60);
+                const minutes = runtime % 60;
+                %>
+                <%= hours %> hr <%= minutes %> min<%= minutes !== 1 ? 's' : '' %></p>
+            <div class="user-score">
+                <p>User <br>Score &nbsp;&nbsp;&nbsp;</p>
+                <div class="vote_average">
+                    <% if(Movie.vote_average>=8){ %>
+                        <span class="green"><%= Movie.vote_average.toFixed(1) %></span>
+                    <% }else if(Movie.vote_average>=5 && Movie.vote_average<8){ %>
+                        <span class="orange"><%= Movie.vote_average.toFixed(1) %></span>
+                    <% }else{ %>
+                        <span class="red"><%= Movie.vote_average.toFixed(1) %></span>
+                    <% } %>
+                </div>
+            </div>
+            <p><em><%= Movie.tagline %></em></p>
+            <p style="width:80%;"><strong>Overview:</strong><br> <%= Movie.overview %></p>
+            <p><strong>Budget:</strong>&nbsp; $<%= Movie.budget.toLocaleString() %><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Revenue:</strong>&nbsp; $<%= Movie.revenue.toLocaleString() %></p>    
+            <p style="width:80%;"><strong>Cast:</strong><% Credits.cast.slice(0,10).forEach(credit=>{ %>
+                <%= credit.name %>,
+               <% }) %>
+           </p>
+           <p style="width:80%;"><strong>Crew:</strong><% Credits.crew.slice(0,10).forEach(credit=>{ %>
+               <%= credit.name %>,
+              <% }) %>
+          </p>
+        </div>
+    </div>
+    <!-- Reviews Section -->
+
+</div>
+<% if(locals.trailers){ %>
+    <div id="overlay" class="overlay">
+        <span class="close" onclick="closeOverlay()">&times;</span>
+        <% if (trailers.length > 0) { %>
+            <% trailers.forEach(trail=>{ %>
+                <% if(trail.name=="Official Trailer"){ %>
+                    <iframe src="https://www.youtube.com/embed/<%= trail.key %>" allowfullscreen></iframe>
+                <% } %>
+            <% }) %>    
+        <% } else { %>
+            <p>No trailers available</p>
+        <% } %>
+    </div>
+    <script>
+        function closeOverlay() {
+            document.getElementById('overlay').classList.remove('show');
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('overlay').classList.add('show');
+        });
+    </script>
+    <% } %>
+<div>
+    <h1 style="margin-left: 9rem;">Reviews</h1>
+    <% if (Reviews.length > 0) { %>
+        <% Reviews.forEach(review => { %>
+            <div class="reviews-section" style="background: rgba(0, 0, 0, 0.7); padding: 20px; border-radius: 10px; max-width: 1200px; margin: 2rem auto;">
+                <div class="review">
+                    <h3 style="color: #fff;"><%= review.author %></h3>
+                    <p style="color: #ddd;"><%= review.content %></p>
+                    <p style="color: #aaa;"><strong>Review Date:</strong> <%= new Date(review.created_at).toLocaleDateString('en-US') %></p>
+                </div>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <p style="color: #fff;">No reviews available.</p>
+    <% } %>
+</div>
+</body>
+</html>

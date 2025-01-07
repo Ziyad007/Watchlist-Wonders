@@ -1,0 +1,52 @@
+<%- include("Partials/Header.ejs") %>
+<div class="introduction">
+    <h1>Welcome. <br>
+    Tune in to upcoming Blockbuster Movies.</h1>
+</div>
+<main>
+    <div class="Popular">
+        <% Movies.forEach(movie =>{ %>
+            <div class="movie">
+                <a href="/movie/<%= movie.id %>">
+                    <div class="image-container">
+                        <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path%>" alt="<%= movie.title %>">
+                        <div class="overview">
+                            <h3>Overview</h3>
+                            <%= movie.overview %>
+                    </div>
+                    </div>
+                    <div class="movie-info">
+                        <h3 class="movie-title"><%= movie.title %></h3>
+                        <% if(movie.vote_average>=8){ %>
+                            <span class="green"><%= movie.vote_average.toFixed(1) %></span>
+                        <% }else if(movie.vote_average>=5 && movie.vote_average<8){ %>
+                            <span class="orange"><%= movie.vote_average.toFixed(1) %></span>
+                        <% }else{ %>
+                            <span class="red"><%= movie.vote_average.toFixed(1) %></span>
+                        <% } %>
+                    </div>
+                </a>  
+            </div>
+        <% }) %>
+    </div>
+    
+    <div class="pagination">
+
+        <% if(Page>1){ %>
+            <a href="/Upcoming?page=<%= Page - 1 %>" class="page">Previous Page</a>
+        <% }else{ %>
+            <div class="page disabled" id="previous">Previous Page</div>
+        <% } %>
+
+        <div class="page" id="present"><%= Page %></div>
+
+        <% if(Page<totalPages){ %>
+            <a href="/Upcoming?page=<%= Page + 1 %>" class="page">Next Page</a>
+        <% }else{ %>
+            <div class="page disabled" id="next">Next Page</div>
+        <% } %>
+
+    </div>
+</main>
+<%- include("Partials/Footer.ejs") %>
+

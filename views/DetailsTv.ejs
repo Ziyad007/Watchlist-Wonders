@@ -1,0 +1,78 @@
+<%- include("Partials/Header.ejs") %>
+<div class="backdrop" style="background-image: url('https://image.tmdb.org/t/p/original<%= Tv.backdrop_path %>');">
+    <div class="details-container">
+        <div class="poster">
+            <img src="https://image.tmdb.org/t/p/w500<%= Tv.poster_path %>" alt="<%= Tv.name %>">
+            <form action="/watch-trailer-tv/<%= Tv.id %>" method="get">
+                <button type="submit" class="know-more">Watch Trailer</button>
+              </form>
+        </div>
+        <div class="movie-details">
+            <h2><%= Tv.name %></h2>
+            <p class="release_date"><%= new Date(Tv.first_air_date).getFullYear() %>&nbsp; &#x2022; <%= Tv.genres.map(genre => genre.name).join(', ') %> &#x2022; &nbsp;</p>
+            <div class="user-score">
+                <p>User <br>Score &nbsp;&nbsp;&nbsp;</p>
+                <div class="vote_average">
+                    <% if(Tv.vote_average>=8){ %>
+                        <span class="green"><%= Tv.vote_average.toFixed(1) %></span>
+                    <% }else if(Tv.vote_average>=5 && Tv.vote_average<8){ %>
+                        <span class="orange"><%= Tv.vote_average.toFixed(1) %></span>
+                    <% }else{ %>
+                        <span class="red"><%= Tv.vote_average.toFixed(1) %></span>
+                    <% } %>
+                </div>
+            </div>
+            <p><em><%= Tv.tagline %></em></p>
+            <p style="width:80%;"><strong>Overview:</strong><br> <%= Tv.overview %></p>
+            
+            <p><strong>Number of Seasons:</strong>&nbsp; <%= Tv.number_of_seasons %><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of Episodes:</strong>&nbsp; <%= Tv.number_of_episodes %></p>    
+            <p style="width:80%;"><strong>Cast:</strong><% Credits.cast.slice(0,10).forEach(credit=>{ %>
+                 <%= credit.name %>,
+                <% }) %>
+            </p>
+            <p style="width:80%;"><strong>Crew:</strong><% Credits.crew.slice(0,10).forEach(credit=>{ %>
+                <%= credit.name %>,
+               <% }) %>
+           </p>
+        </div>
+    </div>
+    <!-- Reviews Section -->
+
+</div>
+<% if(locals.trailers){ %>
+    <div id="overlay" class="overlay">
+        <span class="close" onclick="closeOverlay()">&times;</span>
+        <% if (trailers.length > 0) { %>
+            <% const trailer = trailers[0]; %> <!-- Get the first trailer for simplicity -->
+            <iframe src="https://www.youtube.com/embed/<%= trailer.key %>" allowfullscreen></iframe>
+        <% } else { %>
+            <p>No trailers available</p>
+        <% } %>
+    </div>
+    <script>
+        function closeOverlay() {
+            document.getElementById('overlay').classList.remove('show');
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('overlay').classList.add('show');
+        });
+    </script>
+<% } %>
+<div>
+    <h1 style="margin-left: 9rem;">Reviews</h1>
+    <% if (Reviews.length > 0) { %>
+        <% Reviews.forEach(review => { %>
+            <div class="reviews-section" style="background: rgba(0, 0, 0, 0.7); padding: 20px; border-radius: 10px; max-width: 1200px; margin: 2rem auto;">
+                <div class="review">
+                    <h3 style="color: #fff;"><%= review.author %></h3>
+                    <p style="color: #ddd;"><%= review.content %></p>
+                    <p style="color: #aaa;"><strong>Review Date:</strong> <%= new Date(review.created_at).toLocaleDateString('en-US') %></p>
+                </div>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <p style="color: #fff;">No reviews available.</p>
+    <% } %>
+</div>
+</body>
+</html>
