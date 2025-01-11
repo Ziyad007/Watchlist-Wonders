@@ -21,7 +21,7 @@ Replace your_tmdb_api_key with your actual TMDb API key, which you can obtain fr
 ### Run the app
 Run the following command:
 ```
-npm start
+node index.js
 ```
 The app will start and you should see a message like this in your terminal:
 ```
